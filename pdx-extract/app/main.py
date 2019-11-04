@@ -92,10 +92,10 @@ def get_subjects(cookies, unique_session_id, term_date):
     }
     res = requests.get(urls.SUBJECTS_URL, cookies=cookies, params=payload)
 
-    if res.ok:
-        return res.json()
+    if not res.ok:
+        return None
 
-    return None
+    return res.json()
 
 
 def get_terms(cookies, unique_session_id):
@@ -129,6 +129,7 @@ async def run():
 
     if None in (session_id, unique_session_id):
         browser.close()
+        logger.error("Failed to get tokens from session.")
         return
 
     cookies = dict(JSESSIONID=session_id)
