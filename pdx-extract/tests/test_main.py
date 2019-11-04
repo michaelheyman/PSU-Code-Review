@@ -17,7 +17,7 @@ def test_authenticate_current_session_returns_ok(mock_requests):
     unique_session_id = "abcdef1234567890"
     cookies = {"JSESSIONID": "CF6813D3F9BFD1ABEEEF47E2FB094926"}
     response = requests.Response()
-    response.status_code = 200
+    response.status_code = requests.codes.ok
     mock_requests.return_value = response
 
     res = main.authenticate_current_session(term, unique_session_id, cookies)
@@ -33,7 +33,7 @@ def test_authenticate_current_session_returns_not_ok_if_response_fails(mock_requ
     unique_session_id = "abcdef1234567890"
     cookies = {"JSESSIONID": "CF6813D3F9BFD1ABEEEF47E2FB094926"}
     response = requests.Response()
-    response.status_code = 400
+    response.status_code = requests.codes.bad_request
     mock_requests.return_value = response
 
     res = main.authenticate_current_session(term, unique_session_id, cookies)
@@ -52,7 +52,7 @@ def test_get_schedule_json_returns_ok_when_good_response(mock_requests):
     cookies = {"JSESSIONID": "CF6813D3F9BFD1ABEEEF47E2FB094926"}
     response = requests.Response()
     response._content = bytearray(json.dumps(data.example_schedule), "utf-8")
-    response.status_code = 200
+    response.status_code = requests.codes.ok
     mock_requests.return_value = response
 
     schedule_json = main.get_schedule_json(subject, term, unique_session_id, cookies)
@@ -69,7 +69,7 @@ def test_get_schedule_json_returns_not_ok_when_bad_response(mock_requests):
     unique_session_id = "abcdef1234567890"
     cookies = {"JSESSIONID": "CF6813D3F9BFD1ABEEEF47E2FB094926"}
     response = requests.Response()
-    response.status_code = 400
+    response.status_code = requests.codes.bad_request
     mock_requests.return_value = response
 
     schedule_json = main.get_schedule_json(subject, term, unique_session_id, cookies)
@@ -88,7 +88,7 @@ def test_get_subjects_returns_json_response_when_response_ok(mock_requests):
     subjects_response = [{"code": "ACTG", "description": "Accounting"}]
     response = requests.Response()
     response._content = bytearray(json.dumps(subjects_response), "utf-8")
-    response.status_code = 200
+    response.status_code = requests.codes.ok
     mock_requests.return_value = response
 
     subjects = main.get_subjects(cookies, unique_session_id, term_date)
@@ -107,7 +107,7 @@ def test_get_subjects_returns_none_when_response_ok(mock_requests):
     subjects_response = [{"code": "ACTG", "description": "Accounting"}]
     response = requests.Response()
     response._content = bytearray(json.dumps(subjects_response), "utf-8")
-    response.status_code = 400
+    response.status_code = requests.codes.bad_request
     mock_requests.return_value = response
 
     subjects = main.get_subjects(cookies, unique_session_id, term_date)
@@ -176,7 +176,7 @@ def test_get_terms_returns_json_response_when_response_ok(mock_requests):
     terms_response = [{"code": "201904", "description": "Fall 2019 Quarter"}]
     response = requests.Response()
     response._content = bytearray(json.dumps(terms_response), "utf-8")
-    response.status_code = 200
+    response.status_code = requests.codes.ok
     mock_requests.return_value = response
 
     terms = main.get_terms(cookies, unique_session_id)
@@ -195,7 +195,7 @@ def test_get_terms_returns_none_when_response_not_ok(mock_requests):
     response = requests.Response()
     response._content = bytearray(json.dumps(terms_response), "utf-8")
 
-    response.status_code = 400
+    response.status_code = requests.codes.bad_request
     mock_requests.return_value = response
 
     terms = main.get_terms(cookies, unique_session_id)
