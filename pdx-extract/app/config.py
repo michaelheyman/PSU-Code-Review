@@ -15,7 +15,7 @@ def map_level(level):
     )
 
 
-BUCKET_NAME = os.environ.get("BUCKET_NAME", "my-different-bucket")
+BUCKET_NAME = os.environ.get("BUCKET_NAME", "unprocessed-data")
 LOGGING_LEVEL = map_level(os.environ.get("LOGGING_LEVEL", "debug"))
 MAX_TERMS = int(os.environ.get("MAX_TERMS", "1"))
 MAX_SUBJECTS = int(os.environ.get("MAX_SUBJECTS", "200"))
